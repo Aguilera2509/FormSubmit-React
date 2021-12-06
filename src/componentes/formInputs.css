@@ -1,0 +1,19 @@
+.control-wh-form{
+    max-width: 1300px;
+    min-height: auto;
+    background-color: tan;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.control-center{
+    text-align: center;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.margin-bottom{
+    margin-bottom: 40px;
+}
