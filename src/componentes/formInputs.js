@@ -1,13 +1,7 @@
 import { useState } from "react";
+import { FORM_SUBMIT, refData } from "../helpers/helper";
 
-const refData = {
-    Name : "",
-    Email : "",
-    Asunt : "",
-    Comment : ""
-};
-
-export const FormInputs = ({FORM_SUBMIT}) =>{
+export const FormInputs = () =>{
 
     const [data, setData] = useState(refData);
 
@@ -20,6 +14,26 @@ export const FormInputs = ({FORM_SUBMIT}) =>{
 
     const handleSubmit = (e) =>{
         e.preventDefault();
+
+        if(!(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/.test(data.Name))){
+            alert("El nombre introducido es erroneo");
+            return;
+        }
+
+        if(!(/[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/i.test(data.Email))){
+            alert("La dirreccion de correo introducida esta mal");
+            return;
+        }
+
+        if(!(/^[\w'\-,.][^?÷?¿/\\+=@#$%ˆ*(){}|~<>;:[\]]{2,}$/.test(data.Asunt))){
+            alert("No debe introducir caracteres especiales en Asunt");
+            return;
+        }
+
+        if(!(/^[\w'\-,.][^÷ˆ]{2,300}$/.test(data.Comment))){
+            alert("El mensaje no debe tener algunos caracteres especiales y no debe pasar de 300 letras(contandose los espacios)");
+            return;
+        }
 
         FORM_SUBMIT(data);
     };
@@ -39,7 +53,8 @@ export const FormInputs = ({FORM_SUBMIT}) =>{
                         <input 
                         type="text" 
                         className="form-control" 
-                        id="inputName" 
+                        id="inputName"
+                        autoComplete="off" 
                         name="Name"
                         value={data.Name}
                         onChange={handleChange} />
@@ -52,6 +67,7 @@ export const FormInputs = ({FORM_SUBMIT}) =>{
                         type="email" 
                         className="form-control" 
                         id="inputEmail"
+                        autoComplete="off"
                         name="Email"
                         value={data.Email}
                         onChange={handleChange} />
@@ -64,6 +80,7 @@ export const FormInputs = ({FORM_SUBMIT}) =>{
                         type="text" 
                         className="form-control" 
                         id="inputAsunt"
+                        autoComplete="off"
                         name="Asunt"
                         value={data.Asunt}
                         onChange={handleChange} />
