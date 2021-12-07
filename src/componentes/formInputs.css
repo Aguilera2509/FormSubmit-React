@@ -17,3 +17,7 @@
 .margin-bottom{
     margin-bottom: 40px;
 }
+
+.err{
+    border: red solid 2px;
+}

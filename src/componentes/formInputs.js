@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { FORM_SUBMIT, refData } from "../helpers/helper";
+import { Loader } from "./loader";
 
 export const FormInputs = () =>{
 
     const [data, setData] = useState(refData);
+    const [load, setLoad] = useState(false);
 
     const handleChange = (e) =>{
         setData({
@@ -16,26 +18,40 @@ export const FormInputs = () =>{
         e.preventDefault();
 
         if(!(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/.test(data.Name))){
-            alert("El nombre introducido es erroneo");
+            alert("El Nombre introducido NO es valido");
+            document.getElementById('inputName').classList.add("err");
             return;
+        }else{
+            document.getElementById('inputName').classList.remove("err");
         }
 
         if(!(/[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/i.test(data.Email))){
-            alert("La dirreccion de correo introducida esta mal");
+            alert("La dirreccion de correo introducida NO es valida ");
+            document.getElementById('inputEmail').classList.add("err");
             return;
+        }else{
+            document.getElementById('inputEmail').classList.remove("err");
         }
 
         if(!(/^[\w'\-,.][^?÷?¿/\\+=@#$%ˆ*(){}|~<>;:[\]]{2,}$/.test(data.Asunt))){
             alert("No debe introducir caracteres especiales en Asunt");
+            document.getElementById('inputAsunt').classList.add("err");
             return;
+        }else{
+            document.getElementById('inputAsunt').classList.remove("err");
         }
 
         if(!(/^[\w'\-,.][^÷ˆ]{2,300}$/.test(data.Comment))){
-            alert("El mensaje no debe tener algunos caracteres especiales y no debe pasar de 300 letras(contandose los espacios)");
+            alert("El mensaje NO debe pasar de 300 letras(contandose los espacios)");
+            document.getElementById('inputComment').classList.add("err");
             return;
+        }else{
+            document.getElementById('inputComment').classList.remove("err");
         }
 
-        FORM_SUBMIT(data);
+        document.getElementById("disabled").disabled = true;
+        setLoad(true);
+        FORM_SUBMIT(data, setLoad, setData);
     };
 
     const handleReset = () =>{
@@ -99,10 +115,11 @@ export const FormInputs = () =>{
                     </div>
                 </div>
                 <div className="d-grid gap-2 col-6 mx-auto">
-                    <button className="btn btn-primary" type="submit">Submit</button>
+                    <button className="btn btn-primary" id="disabled" type="submit">Submit</button>
                     <button className="btn btn-primary margin-bottom" type="reset" onClick={handleReset}>Reset</button>
                 </div>
             </form>
+            {load && <Loader />}
         </div>
         </>
     );
